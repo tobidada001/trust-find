@@ -4,7 +4,7 @@ from .models import Item, Message
 
 class ItemForm(forms.ModelForm):
     images = forms.FileField(
-        widget=forms.ClearableFileInput(attrs={'multiple': True}),
+        widget=forms.FileInput(),
         required=False,
         help_text='You can upload up to 3 images (Max 5MB each)'
     )

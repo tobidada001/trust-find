@@ -8,7 +8,8 @@ from django.core.paginator import Paginator
 from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from .models import Item, Category, User, ItemImage, Message
-from .forms import ItemForm, UserProfileForm, MessageForm
+from .forms import ItemForm,  MessageForm
+from authapp.forms import UserProfileForm
 import json
 
 from django.contrib.auth import get_user_model
@@ -79,7 +80,7 @@ def post_item(request):
     context = {
         'form': form,
         'categories': Category.objects.all(),
-        'locations': Location.objects.all(),
+        
     }
     return render(request, 'lost_found/post_item.html', context)
 
@@ -123,7 +124,7 @@ def edit_item(request, pk):
         'form': form,
         'item': item,
         'categories': Category.objects.all(),
-        'locations': Location.objects.all(),
+        
     }
     return render(request, 'lost_found/edit_item.html', context)
 
@@ -164,7 +165,7 @@ def search_items(request):
     # Filter by location
     location = request.GET.get('location', '')
     if location:
-        items = items.filter(location__slug=location)
+        items = items.filter(location__in=location)
     
     # Filter by date range
     date_from = request.GET.get('date_from', '')
