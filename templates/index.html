@@ -1,71 +1,69 @@
-<div class="min-h-screen bg-blue-50">
-  <!-- Navigation -->
-  <nav class="bg-blue-600 text-white p-4 shadow-md">
-    <div class="container mx-auto flex justify-between items-center">
-      <a href="index.html" class="text-xl font-bold">Campus Lost & Found</a>
-      <div class="space-x-4">
-        <a href="search.html" class="hover:underline">Search Items</a>
-        <a href="post-item.html" class="hover:underline">Post Item</a>
-        <a href="my-items.html" class="hover:underline">My Items</a>
-        <a href="profile.html" class="hover:underline">Profile</a>
-        <a href="login.html" class="hover:underline">Login</a>
-      </div>
-    </div>
-  </nav>
+{% extends 'base.html' %} {% block content %}
 
-  <!-- Hero Section -->
-  <div class="bg-blue-700 text-white py-12">
-    <div class="container mx-auto text-center px-4">
-      <h1 class="text-3xl font-bold mb-4">Lost Something? Found Something?</h1>
-      <p class="text-xl mb-8">Connect with the campus community to recover lost items or return found ones.</p>
-      <div class="flex justify-center space-x-4">
-        <a href="post-item.html?type=lost" class="bg-white text-blue-700 px-6 py-2 rounded-lg font-semibold hover:bg-blue-100">Report Lost Item</a>
-        <a href="post-item.html?type=found" class="bg-white text-blue-700 px-6 py-2 rounded-lg font-semibold hover:bg-blue-100">Report Found Item</a>
-      </div>
-    </div>
-  </div>
-
-  <!-- Recent Items Section -->
-  <div class="container mx-auto py-8 px-4">
-    <h2 class="text-2xl font-bold mb-6 text-blue-800">Recent Items</h2>
-    
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <!-- Item Card 1 -->
-      <div class="bg-white p-4 rounded-lg shadow-md border border-blue-100">
-        <div class="text-sm font-semibold mb-2 inline-block px-2 py-1 rounded bg-red-100 text-red-800">Lost</div>
-        <h3 class="text-lg font-semibold text-blue-800">Blue Backpack</h3>
-        <p class="text-gray-600 mb-2">Lost near the Science Building on June 10th</p>
-        <div class="flex justify-between items-center mt-4">
-          <span class="text-sm text-gray-500">Posted 2 hours ago</span>
-          <a href="item-details.html?id=1" class="text-blue-600 hover:underline">View Details</a>
-        </div>
-      </div>
+<!-- Hero Section -->
+<div class="bg-blue-700 text-white py-12">
+  <div class="container mx-auto text-center px-4">
+    <h1 class="text-3xl font-bold mb-4">Lost Something? Found Something?</h1>
+    <p class="text-xl mb-8">
+      Connect with the campus community to recover lost items or return found
+      ones.
+    </p>
+    <div class="flex justify-center space-x-4">
       
-      <!-- Item Card 2 -->
-      <div class="bg-white p-4 rounded-lg shadow-md border border-blue-100">
-        <div class="text-sm font-semibold mb-2 inline-block px-2 py-1 rounded bg-green-100 text-green-800">Found</div>
-        <h3 class="text-lg font-semibold text-blue-800">Student ID Card</h3>
-        <p class="text-gray-600 mb-2">Found in the Library, 2nd floor</p>
-        <div class="flex justify-between items-center mt-4">
-          <span class="text-sm text-gray-500">Posted 5 hours ago</span>
-          <a href="item-details.html?id=2" class="text-blue-600 hover:underline">View Details</a>
-        </div>
-      </div>
-      
-      <!-- Item Card 3 -->
-      <div class="bg-white p-4 rounded-lg shadow-md border border-blue-100">
-        <div class="text-sm font-semibold mb-2 inline-block px-2 py-1 rounded bg-red-100 text-red-800">Lost</div>
-        <h3 class="text-lg font-semibold text-blue-800">iPhone 13</h3>
-        <p class="text-gray-600 mb-2">Lost in the Student Center around noon</p>
-        <div class="flex justify-between items-center mt-4">
-          <span class="text-sm text-gray-500">Posted 1 day ago</span>
-          <a href="item-details.html?id=3" class="text-blue-600 hover:underline">View Details</a>
-        </div>
-      </div>
-    </div>
-    
-    <div class="text-center mt-8">
-      <a href="search.html" class="text-blue-600 hover:underline font-semibold">View All Items</a>
+      <a
+        href="{% url 'lost_found:post_item' %}"
+        class="bg-white text-blue-700 px-6 py-2 rounded-lg font-semibold hover:bg-blue-100"
+        >Report Lost or Found Item</a
+      >
     </div>
   </div>
 </div>
+
+<!-- Recent Items Section -->
+<div class="container mx-auto py-8 px-4">
+  <h2 class="text-2xl font-bold mb-6 text-blue-800">Recent Items</h2>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    {% for item in recent_items %}
+    <!-- Item Card 1 -->
+    <div class="bg-white p-4 rounded-lg shadow-md border border-blue-100">
+      {% if item.status == 'lost'  %}
+         <div
+        class="text-sm font-semibold mb-2 inline-block px-2 py-1 rounded bg-red-100 text-red-800"
+      >
+        Lost
+      </div>
+      {% else %}
+      <div
+     class="text-sm font-semibold mb-2 inline-block px-2 py-1 rounded bg-green-100 text-green-800"
+   >
+     Found
+   </div>
+
+      {% endif %}
+   
+      <h3 class="text-lg font-semibold text-blue-800">{{item.title}}</h3>
+      <p class="text-gray-600 mb-2">
+        Lost near the Science Building on June 10th
+      </p>
+      <div class="flex justify-between items-center mt-4">
+        <span class="text-sm text-gray-500">Posted 2 hours ago</span>
+        <a href="item-details.html?id=1" class="text-blue-600 hover:underline"
+          >View Details</a
+        >
+      </div>
+    </div>
+
+    {% endfor %}
+  </div>
+
+  <div class="text-center mt-8">
+    <a
+      href="{% url 'lost_found:search' %}"
+      class="text-blue-600 hover:underline font-semibold"
+      >View All Items</a
+    >
+  </div>
+</div>
+
+{% endblock content %}

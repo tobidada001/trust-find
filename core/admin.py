@@ -37,7 +37,7 @@ class ItemAdmin(admin.ModelAdmin):
             'fields': ('title', 'description', 'status', 'item_status')
         }),
         ('Details', {
-            'fields': ('category', 'location', 'date_lost_found', 'time_lost_found')
+            'fields': ('category', 'location', 'date_lost_found', 'time_lost_found', 'image')
         }),
         ('Contact & Posting', {
             'fields': ('contact_info', 'posted_by', 'is_approved')

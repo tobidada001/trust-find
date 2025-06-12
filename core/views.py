@@ -1,7 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.db.models import Q
 from django.core.paginator import Paginator
@@ -9,7 +8,6 @@ from django.http import JsonResponse
 from django.views.decorators.http import require_POST
 from .models import Item, Category, User, ItemImage, Message
 from .forms import ItemForm,  MessageForm
-from authapp.forms import UserProfileForm
 import json
 
 from django.contrib.auth import get_user_model
@@ -25,41 +23,12 @@ def home(request):
     context = {
         'recent_items': recent_items,
     }
-    return render(request, 'lost_found/home.html', context)
+    return render(request, 'index.html', context)
 
-def register_view(request):
-    """User registration"""
-    if request.method == 'POST':
-        form = UserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Account created for {username}!')
-            return redirect('login')
-    else:
-        form = UserCreationForm()
-    return render(request, 'registration/register.html', {'form': form})
 
-@login_required
-def profile_view(request):
-    """User profile management"""
-    if request.method == 'POST':
-        form = UserProfileForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Profile updated successfully!')
-            return redirect('profile')
-    else:
-        form = UserProfileForm(instance=request.user)
-    
-    context = {
-        'form': form,
-    }
-    return render(request, 'lost_found/profile.html', context)
 
 @login_required
 def post_item(request):
-    """Post a new lost/found item"""
     if request.method == 'POST':
         form = ItemForm(request.POST, request.FILES)
         if form.is_valid():
@@ -82,14 +51,12 @@ def post_item(request):
         'categories': Category.objects.all(),
         
     }
-    return render(request, 'lost_found/post_item.html', context)
+    return render(request, 'post-item.html', context)
 
 @login_required
 def my_items(request):
-    """User's posted items"""
     items = Item.objects.filter(posted_by=request.user).select_related(
-        'category', 'location'
-    ).order_by('-created_at')
+        'category').order_by('-created_at')
     
     paginator = Paginator(items, 10)
     page_number = request.GET.get('page')
@@ -98,7 +65,7 @@ def my_items(request):
     context = {
         'page_obj': page_obj,
     }
-    return render(request, 'lost_found/my_items.html', context)
+    return render(request, 'my-items.html', context)
 
 @login_required
 def edit_item(request, pk):
@@ -126,7 +93,7 @@ def edit_item(request, pk):
         'categories': Category.objects.all(),
         
     }
-    return render(request, 'lost_found/edit_item.html', context)
+    return render(request, 'edit_item.html', context)
 
 @login_required
 @require_POST
@@ -204,7 +171,7 @@ def search_items(request):
             'sort': sort_by,
         }
     }
-    return render(request, 'lost_found/search.html', context)
+    return render(request, 'search.html', context)
 
 def item_detail(request, pk):
     """Item detail view"""
@@ -227,7 +194,7 @@ def item_detail(request, pk):
         'images': images,
         'messages': messages_list,
     }
-    return render(request, 'lost_found/item_detail.html', context)
+    return render(request, 'item_detail.html', context)
 
 @login_required
 @require_POST

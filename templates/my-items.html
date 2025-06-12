@@ -1,17 +1,7 @@
-<div class="min-h-screen bg-blue-50">
-  <!-- Navigation -->
-  <nav class="bg-blue-600 text-white p-4 shadow-md">
-    <div class="container mx-auto flex justify-between items-center">
-      <a href="index.html" class="text-xl font-bold">Campus Lost & Found</a>
-      <div class="space-x-4">
-        <a href="search.html" class="hover:underline">Search Items</a>
-        <a href="post-item.html" class="hover:underline">Post Item</a>
-        <a href="my-items.html" class="hover:underline font-semibold">My Items</a>
-        <a href="profile.html" class="hover:underline">Profile</a>
-        <a href="index.html" class="hover:underline">Logout</a>
-      </div>
-    </div>
-  </nav>
+{% extends 'base.html' %}
+
+{% block content %}
+
 
   <div class="container mx-auto py-8 px-4">
     <h1 class="text-2xl font-bold text-blue-800 mb-6">My Items</h1>
@@ -24,13 +14,23 @@
     </div>
     
     <div class="space-y-4">
+
+      
+      {% for item in page_obj.object_list %}
+          
       <!-- Item 1 -->
       <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-red-500">
         <div class="flex justify-between items-start">
           <div>
+            {% if item.status == 'lost' %}
             <div class="text-sm font-semibold mb-1 inline-block px-2 py-0.5 rounded bg-red-100 text-red-800">Lost</div>
-            <h3 class="text-lg font-semibold text-blue-800">Laptop Charger</h3>
-            <p class="text-gray-600 mb-2">Lost in the Computer Lab on June 8th</p>
+            {% else %}
+            <div class="text-sm font-semibold mb-1 inline-block px-2 py-0.5 rounded bg-green-100 text-green-800">Lost</div>
+            {% endif %}
+            <h3 class="text-lg font-semibold text-blue-800">{{item.title}}</h3>
+            {% if item.status == 'lost' %}
+            <p class="text-gray-600 mb-2">Lost at {{item.location}} on {{item.date_lost_found}}</p>
+            {% endif %}
             <p class="text-sm text-gray-500">Posted 3 days ago</p>
           </div>
           <div class="flex space-x-2">
@@ -39,50 +39,23 @@
           </div>
         </div>
         <div class="mt-4 flex justify-between items-center">
-          <span class="text-sm text-gray-500">Status: <span class="font-medium text-yellow-600">Active</span></span>
+          <span class="text-sm text-gray-500">Status: 
+            {% if item.item_status == 'active' %}
+                <span class="font-medium text-green-600">Active</span>
+                {% elif item.item_status == 'resolved' %}
+                <span class="font-medium text-blue-600">Resolved</span>
+                {% else %}
+                <span class="font-medium text-yellow-600">Expired</span>
+
+            {% endif %}
+            </span>
           <a href="item-details.html?id=1" class="text-blue-600 hover:underline">View Details</a>
         </div>
       </div>
-      
-      <!-- Item 2 -->
-      <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-green-500">
-        <div class="flex justify-between items-start">
-          <div>
-            <div class="text-sm font-semibold mb-1 inline-block px-2 py-0.5 rounded bg-green-100 text-green-800">Found</div>
-            <h3 class="text-lg font-semibold text-blue-800">Water Bottle</h3>
-            <p class="text-gray-600 mb-2">Found in the Gym on June 10th</p>
-            <p class="text-sm text-gray-500">Posted 1 day ago</p>
-          </div>
-          <div class="flex space-x-2">
-            <a href="edit-item.html?id=2" class="text-blue-600 hover:underline text-sm">Edit</a>
-            <a href="#" class="text-red-600 hover:underline text-sm">Delete</a>
-          </div>
-        </div>
-        <div class="mt-4 flex justify-between items-center">
-          <span class="text-sm text-gray-500">Status: <span class="font-medium text-yellow-600">Active</span></span>
-          <a href="item-details.html?id=2" class="text-blue-600 hover:underline">View Details</a>
-        </div>
-      </div>
-      
-      <!-- Item 3 -->
-      <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-red-500 opacity-75">
-        <div class="flex justify-between items-start">
-          <div>
-            <div class="text-sm font-semibold mb-1 inline-block px-2 py-0.5 rounded bg-red-100 text-red-800">Lost</div>
-            <h3 class="text-lg font-semibold text-blue-800">Textbook - Introduction to Psychology</h3>
-            <p class="text-gray-600 mb-2">Lost in the Library on May 28th</p>
-            <p class="text-sm text-gray-500">Posted 2 weeks ago</p>
-          </div>
-          <div class="flex space-x-2">
-            <a href="edit-item.html?id=3" class="text-blue-600 hover:underline text-sm">Edit</a>
-            <a href="#" class="text-red-600 hover:underline text-sm">Delete</a>
-          </div>
-        </div>
-        <div class="mt-4 flex justify-between items-center">
-          <span class="text-sm text-gray-500">Status: <span class="font-medium text-green-600">Resolved</span></span>
-          <a href="item-details.html?id=3" class="text-blue-600 hover:underline">View Details</a>
-        </div>
-      </div>
+      {% endfor %}
+    
     </div>
   </div>
-</div>
+
+
+{% endblock %}
