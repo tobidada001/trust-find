@@ -1,0 +1,114 @@
+<div class="min-h-screen bg-blue-50">
+  <!-- Navigation -->
+  <nav class="bg-blue-600 text-white p-4 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+      <a href="index.html" class="text-xl font-bold">Campus Lost & Found</a>
+      <div class="space-x-4">
+        <a href="search.html" class="hover:underline">Search Items</a>
+        <a href="post-item.html" class="hover:underline">Post Item</a>
+        <a href="my-items.html" class="hover:underline">My Items</a>
+        <a href="profile.html" class="hover:underline">Profile</a>
+        <a href="index.html" class="hover:underline">Logout</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container mx-auto py-8 px-4">
+    <div class="mb-4">
+      <a href="search.html" class="text-blue-600 hover:underline flex items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Back to Search
+      </a>
+    </div>
+    
+    <div class="bg-white rounded-lg shadow-md overflow-hidden">
+      <div class="p-6">
+        <div class="flex justify-between items-start">
+          <div>
+            <div class="text-sm font-semibold mb-2 inline-block px-2 py-1 rounded bg-red-100 text-red-800">Lost</div>
+            <h1 class="text-2xl font-bold text-blue-800">Blue Backpack</h1>
+          </div>
+          <div class="text-sm text-gray-500">Posted 2 hours ago</div>
+        </div>
+        
+        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="md:col-span-2">
+            <div class="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg mb-4">
+              <div class="flex items-center justify-center h-64 bg-gray-200 rounded-lg">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+              </div>
+            </div>
+            
+            <div class="mb-6">
+              <h2 class="text-lg font-semibold text-blue-800 mb-2">Description</h2>
+              <p class="text-gray-700">
+                I lost my blue Jansport backpack near the Science Building on June 10th around 2:30 PM. It has a laptop, textbooks, and my student ID inside. The backpack has a small tear on the front pocket and a keychain with a small robot attached to the zipper. If found, please contact me as soon as possible. I'm offering a reward for its return.
+              </p>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+              <div>
+                <h2 class="text-lg font-semibold text-blue-800 mb-2">Details</h2>
+                <ul class="space-y-2">
+                  <li class="flex">
+                    <span class="text-gray-600 w-24">Category:</span>
+                    <span class="text-gray-800">Bags & Backpacks</span>
+                  </li>
+                  <li class="flex">
+                    <span class="text-gray-600 w-24">Date Lost:</span>
+                    <span class="text-gray-800">June 10, 2025</span>
+                  </li>
+                  <li class="flex">
+                    <span class="text-gray-600 w-24">Time:</span>
+                    <span class="text-gray-800">Around 2:30 PM</span>
+                  </li>
+                  <li class="flex">
+                    <span class="text-gray-600 w-24">Location:</span>
+                    <span class="text-gray-800">Science Building, 2nd Floor</span>
+                  </li>
+                </ul>
+              </div>
+              
+              <div>
+                <h2 class="text-lg font-semibold text-blue-800 mb-2">Status</h2>
+                <div class="inline-block px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 font-medium">
+                  Active
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="bg-blue-50 p-4 rounded-lg">
+            <h2 class="text-lg font-semibold text-blue-800 mb-4">Contact Information</h2>
+            <div class="space-y-4">
+              <div>
+                <h3 class="text-sm font-medium text-gray-600">Posted by</h3>
+                <p class="text-gray-800">John Smith</p>
+              </div>
+              
+              <div>
+                <h3 class="text-sm font-medium text-gray-600">Email</h3>
+                <p class="text-gray-800">john.smith@example.com</p>
+              </div>
+              
+              <div>
+                <h3 class="text-sm font-medium text-gray-600">Phone</h3>
+                <p class="text-gray-800">(555) 123-4567</p>
+              </div>
+              
+              <div class="pt-4 border-t border-blue-200">
+                <button type="button" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+                  Contact Owner
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
