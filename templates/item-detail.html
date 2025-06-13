@@ -1,172 +1,207 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-{% block content %}
-  
-
-  <div class="container mx-auto py-8 px-4">
-    <div class="mb-4">
-      <a href="{% url 'lost_found:search' %}" class="text-blue-600 hover:underline flex items-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-        </svg>
-        Back to Search
-      </a>
-    </div>
-    
-    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-      <div class="p-6">
-        <div class="flex justify-between items-start">
-          <div>
-            {% if item.status == "lost" %}
-            <div class="text-sm font-semibold mb-2 inline-block px-2 py-1 rounded bg-red-100 text-red-800">Lost</div>
-            {% else %}
-            <div class="text-sm font-semibold mb-2 inline-block px-2 py-1 rounded bg-green-100 text-green-800">Found</div>
-
-            {% endif %}
-            <h1 class="text-2xl font-bold text-blue-800">{{ item.title }}</h1>
-          </div>
-          <div class="text-sm text-gray-500">Posted {{item.created_at|timesince}} ago</div>
-        </div>
-        
-        <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="md:col-span-2">
-            <div class="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg mb-4">
-              <div class="flex items-center justify-center h-64 bg-gray-200 rounded-lg">
-             
-                <img id="main-image" src="{{ item.image.url }}" class="h-full w-full" />
-              </div>
-            </div>
-            
-
-            {% if item.images.all %}
-  <div class="mb-6">
-    <h2 class="text-lg font-semibold text-blue-800 mb-2">More Images</h2>
-    <div class="flex space-x-2 overflow-x-auto">
-       <img 
-    src="{{ item.image.url }}" 
-    data-url="{{ item.image.url }}"
-    class="h-24 w-24 object-cover rounded border cursor-pointer hover:opacity-80 transition"
-    alt="Image of {{ item.title }}">
-
-    {% for image in item.images.all %}
-  <img 
-    src="{{ image.image.url }}" 
-    data-url="{{ image.image.url }}"
-    class="h-24 w-24 object-cover rounded border cursor-pointer hover:opacity-80 transition"
-    alt="Extra image of {{ item.title }}">
-{% endfor %}
-    </div>
+<div class="container mx-auto py-8 px-4">
+  <div class="mb-4">
+    <a
+      href="{% url 'lost_found:search' %}"
+      class="text-blue-600 hover:underline flex items-center"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-4 w-4 mr-1"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M10 19l-7-7m0 0l7-7m-7 7h18"
+        />
+      </svg>
+      Back to Search
+    </a>
   </div>
-{% endif %}
 
+  <div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <div class="p-6">
+      <div class="flex justify-between items-start">
+        <div>
+          {% if item.status == "lost" %}
+          <div
+            class="text-sm font-semibold mb-2 inline-block px-2 py-1 rounded bg-red-100 text-red-800"
+          >
+            Lost
+          </div>
+          {% else %}
+          <div
+            class="text-sm font-semibold mb-2 inline-block px-2 py-1 rounded bg-green-100 text-green-800"
+          >
+            Found
+          </div>
 
-            <div class="mb-6">
-              <h2 class="text-lg font-semibold text-blue-800 mb-2">Description</h2>
-              <p class="text-gray-700">
-                  {{item.description}}
-              </p>
-            </div>
-            
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-              <div>
-                <h2 class="text-lg font-semibold text-blue-800 mb-2">Details</h2>
-                <ul class="space-y-2">
-                  <li class="flex">
-                    <span class="text-gray-600 w-24">Category:</span>
-                    <span class="text-gray-800">{{item.category.name}}</span>
-                  </li>
-                  <li class="flex">
-                    {% if item.status == "lost" %}
-                    <span class="text-gray-600 w-24">Date Lost:</span>
-                    <span class="text-gray-800"> {{item.date_lost_found}} </span>
-                    
-                    {% else %}
-                    <span class="text-gray-600 w-24">Date Found:</span>
-                    <span class="text-gray-800"> {{item.date_lost_found}} </span>
-                    
-                    {% endif %}
-                  </li>
-                  <li class="flex">
-                    <span class="text-gray-600 w-24">Time:</span>
-                    <span class="text-gray-800">Around {{item.time_lost_found}}</span>
-                  </li>
-                  <li class="flex">
-                    <span class="text-gray-600 w-24">Location:</span>
-                    <span class="text-gray-800">{{item.location}}</span>
-                  </li>
-                </ul>
-              </div>
-              
-              <div>
-                <h2 class="text-lg font-semibold text-blue-800 mb-2">Status</h2>
+          {% endif %}
+          <h1 class="text-2xl font-bold text-blue-800">{{ item.title }}</h1>
+        </div>
+        <div class="text-sm text-gray-500">
+          Posted {{item.created_at|timesince}} ago
+        </div>
+      </div>
 
-                {% if item.item_status == "active" %}
-
-                <div class="inline-block px-3 py-1 rounded-full bg-green-100 text-green-800 font-medium">
-                  Active
-                </div>
-
-                {% elif item.item_status == "resolved" %}
-                    <div class="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-medium">
-                  Resolved
-                </div>
-                {% else %}
-                  <div class="inline-block px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 font-medium">
-                  Expired
-                </div>
-                {% endif %}
-              </div>
+      <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="md:col-span-2">
+          <div class="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg mb-4">
+            <div
+              class="flex items-center justify-center h-64 bg-gray-200 rounded-lg"
+            >
+              <img
+                id="main-image"
+                src="{{ item.image.url }}"
+                class="h-full w-full"
+              />
             </div>
           </div>
-          
-          <div class="bg-blue-50 p-4 rounded-lg">
-            <h2 class="text-lg font-semibold text-blue-800 mb-4">Contact Information</h2>
-            <div class="space-y-4">
-              <div>
-                <h3 class="text-sm font-medium text-gray-600">Posted by</h3>
-                <p class="text-gray-800">{{item.posted_by.username}}</p>
+
+          {% if item.images.all %}
+          <div class="mb-6">
+            <h2 class="text-lg font-semibold text-blue-800 mb-2">
+              More Images
+            </h2>
+            <div class="flex space-x-2 overflow-x-auto">
+              <img
+                src="{{ item.image.url }}"
+                data-url="{{ item.image.url }}"
+                class="h-24 w-24 object-cover rounded border cursor-pointer hover:opacity-80 transition"
+                alt="Image of {{ item.title }}"
+              />
+
+              {% for image in item.images.all %}
+              <img
+                src="{{ image.image.url }}"
+                data-url="{{ image.image.url }}"
+                class="h-24 w-24 object-cover rounded border cursor-pointer hover:opacity-80 transition"
+                alt="Extra image of {{ item.title }}"
+              />
+              {% endfor %}
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="mb-6">
+            <h2 class="text-lg font-semibold text-blue-800 mb-2">
+              Description
+            </h2>
+            <p class="text-gray-700">{{item.description}}</p>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div>
+              <h2 class="text-lg font-semibold text-blue-800 mb-2">Details</h2>
+              <ul class="space-y-2">
+                <li class="flex">
+                  <span class="text-gray-600 w-24">Category:</span>
+                  <span class="text-gray-800">{{item.category.name}}</span>
+                </li>
+                <li class="flex">
+                  {% if item.status == "lost" %}
+                  <span class="text-gray-600 w-24">Date Lost:</span>
+                  <span class="text-gray-800"> {{item.date_lost_found}} </span>
+
+                  {% else %}
+                  <span class="text-gray-600 w-24">Date Found:</span>
+                  <span class="text-gray-800"> {{item.date_lost_found}} </span>
+
+                  {% endif %}
+                </li>
+                <li class="flex">
+                  <span class="text-gray-600 w-24">Time:</span>
+                  <span class="text-gray-800"
+                    >Around {{item.time_lost_found}}</span
+                  >
+                </li>
+                <li class="flex">
+                  <span class="text-gray-600 w-24">Location:</span>
+                  <span class="text-gray-800">{{item.location}}</span>
+                </li>
+              </ul>
+            </div>
+
+            <div>
+              <h2 class="text-lg font-semibold text-blue-800 mb-2">Status</h2>
+
+              {% if item.item_status == "active" %}
+
+              <div
+                class="inline-block px-3 py-1 rounded-full bg-green-100 text-green-800 font-medium"
+              >
+                Active
               </div>
 
-
-              
-              <div>
-                <h3 class="text-sm font-medium text-gray-600">Email</h3>
-                <p class="text-gray-800">{{item.posted_by.email}}</p>
+              {% elif item.item_status == "resolved" %}
+              <div
+                class="inline-block px-3 py-1 rounded-full bg-blue-100 text-blue-800 font-medium"
+              >
+                Resolved
               </div>
-              
-              {% if item.posted_by.phone %}
-              <div>
-                <h3 class="text-sm font-medium text-gray-600">Phone</h3>
-                <p class="text-gray-800">{{item.posted_by.phone}}</p>
+              {% else %}
+              <div
+                class="inline-block px-3 py-1 rounded-full bg-yellow-100 text-yellow-800 font-medium"
+              >
+                Expired
               </div>
               {% endif %}
-              
-              <div class="pt-4 border-t border-blue-200">
-                <button type="button" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                  Contact Poster
-                </button>
-              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-blue-50 p-4 rounded-lg">
+          <h2 class="text-lg font-semibold text-blue-800 mb-4">
+            Contact Information
+          </h2>
+          <div class="space-y-4">
+            <div>
+              <h3 class="text-sm font-medium text-gray-600">Posted by</h3>
+              <p class="text-gray-800">{{item.posted_by.username}}</p>
+            </div>
+
+            <div>
+              <h3 class="text-sm font-medium text-gray-600">Email</h3>
+              <p class="text-gray-800">{{item.posted_by.email}}</p>
+            </div>
+
+            {% if item.posted_by.phone %}
+            <div>
+              <h3 class="text-sm font-medium text-gray-600">Phone</h3>
+              <p class="text-gray-800">{{item.posted_by.phone}}</p>
+            </div>
+            {% endif %}
+
+            <div class="pt-4 border-t border-blue-200">
+              <button
+                type="button"
+                class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+              >
+                Contact Poster
+              </button>
             </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+</div>
 
-
-{% endblock %}
-
-
-{% block script %}
+{% endblock %} {% block script %}
 <script>
-  document.addEventListener('DOMContentLoaded', function () {
-    const mainImage = document.getElementById('main-image');
-    const thumbnails = document.querySelectorAll('[data-url]');
+  document.addEventListener("DOMContentLoaded", function () {
+    const mainImage = document.getElementById("main-image");
+    const thumbnails = document.querySelectorAll("[data-url]");
 
-    thumbnails.forEach(thumb => {
-      thumb.addEventListener('click', function () {
-        const newUrl = this.getAttribute('data-url');
-        mainImage.setAttribute('src', newUrl);
+    thumbnails.forEach((thumb) => {
+      thumb.addEventListener("click", function () {
+        const newUrl = this.getAttribute("data-url");
+        mainImage.setAttribute("src", newUrl);
       });
     });
   });
