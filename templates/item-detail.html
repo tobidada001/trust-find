@@ -33,10 +33,33 @@
             <div class="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg mb-4">
               <div class="flex items-center justify-center h-64 bg-gray-200 rounded-lg">
              
-                <img src="{{ item.image.url }}" class="h-full w-full" />
+                <img id="main-image" src="{{ item.image.url }}" class="h-full w-full" />
               </div>
             </div>
             
+
+            {% if item.images.all %}
+  <div class="mb-6">
+    <h2 class="text-lg font-semibold text-blue-800 mb-2">More Images</h2>
+    <div class="flex space-x-2 overflow-x-auto">
+       <img 
+    src="{{ item.image.url }}" 
+    data-url="{{ item.image.url }}"
+    class="h-24 w-24 object-cover rounded border cursor-pointer hover:opacity-80 transition"
+    alt="Image of {{ item.title }}">
+
+    {% for image in item.images.all %}
+  <img 
+    src="{{ image.image.url }}" 
+    data-url="{{ image.image.url }}"
+    class="h-24 w-24 object-cover rounded border cursor-pointer hover:opacity-80 transition"
+    alt="Extra image of {{ item.title }}">
+{% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+
             <div class="mb-6">
               <h2 class="text-lg font-semibold text-blue-800 mb-2">Description</h2>
               <p class="text-gray-700">
@@ -132,3 +155,20 @@
 
 
 {% endblock %}
+
+
+{% block script %}
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const mainImage = document.getElementById('main-image');
+    const thumbnails = document.querySelectorAll('[data-url]');
+
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener('click', function () {
+        const newUrl = this.getAttribute('data-url');
+        mainImage.setAttribute('src', newUrl);
+      });
+    });
+  });
+</script>
+{% endblock script %}
