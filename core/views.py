@@ -243,7 +243,6 @@ def mark_item_active(request, pk):
 # API Views for AJAX requests
 @login_required
 def delete_image(request, pk):
-    """Delete an item image"""
     if request.method == 'POST':
         image = get_object_or_404(ItemImage, pk=pk, item__posted_by=request.user)
         image.delete()
