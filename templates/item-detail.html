@@ -5,7 +5,7 @@
 
   <div class="container mx-auto py-8 px-4">
     <div class="mb-4">
-      <a href="search.html" class="text-blue-600 hover:underline flex items-center">
+      <a href="{% url 'lost_found:search' %}" class="text-blue-600 hover:underline flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
         </svg>
@@ -17,26 +17,30 @@
       <div class="p-6">
         <div class="flex justify-between items-start">
           <div>
+            {% if item.status == "lost" %}
             <div class="text-sm font-semibold mb-2 inline-block px-2 py-1 rounded bg-red-100 text-red-800">Lost</div>
-            <h1 class="text-2xl font-bold text-blue-800">Blue Backpack</h1>
+            {% else %}
+            <div class="text-sm font-semibold mb-2 inline-block px-2 py-1 rounded bg-green-100 text-green-800">Found</div>
+
+            {% endif %}
+            <h1 class="text-2xl font-bold text-blue-800">{{ item.title }}</h1>
           </div>
-          <div class="text-sm text-gray-500">Posted 2 hours ago</div>
+          <div class="text-sm text-gray-500">Posted {{item.created_at|timesince}} ago</div>
         </div>
         
         <div class="mt-6 grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="md:col-span-2">
             <div class="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg mb-4">
               <div class="flex items-center justify-center h-64 bg-gray-200 rounded-lg">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
+             
+                <img src="{{ item.image.url }}" class="h-full w-full" />
               </div>
             </div>
             
             <div class="mb-6">
               <h2 class="text-lg font-semibold text-blue-800 mb-2">Description</h2>
               <p class="text-gray-700">
-                I lost my blue Jansport backpack near the Science Building on June 10th around 2:30 PM. It has a laptop, textbooks, and my student ID inside. The backpack has a small tear on the front pocket and a keychain with a small robot attached to the zipper. If found, please contact me as soon as possible. I'm offering a reward for its return.
+                  {{item.description}}
               </p>
             </div>
             
@@ -46,19 +50,26 @@
                 <ul class="space-y-2">
                   <li class="flex">
                     <span class="text-gray-600 w-24">Category:</span>
-                    <span class="text-gray-800">Bags & Backpacks</span>
+                    <span class="text-gray-800">{{item.category.name}}</span>
                   </li>
                   <li class="flex">
+                    {% if item.status == "lost" %}
                     <span class="text-gray-600 w-24">Date Lost:</span>
-                    <span class="text-gray-800">June 10, 2025</span>
+                    <span class="text-gray-800"> {{item.date_lost_found}} </span>
+                    
+                    {% else %}
+                    <span class="text-gray-600 w-24">Date Found:</span>
+                    <span class="text-gray-800"> {{item.date_lost_found}} </span>
+                    
+                    {% endif %}
                   </li>
                   <li class="flex">
                     <span class="text-gray-600 w-24">Time:</span>
-                    <span class="text-gray-800">Around 2:30 PM</span>
+                    <span class="text-gray-800">Around {{item.time_lost_found}}</span>
                   </li>
                   <li class="flex">
                     <span class="text-gray-600 w-24">Location:</span>
-                    <span class="text-gray-800">Science Building, 2nd Floor</span>
+                    <span class="text-gray-800">{{item.location}}</span>
                   </li>
                 </ul>
               </div>
@@ -77,22 +88,26 @@
             <div class="space-y-4">
               <div>
                 <h3 class="text-sm font-medium text-gray-600">Posted by</h3>
-                <p class="text-gray-800">John Smith</p>
+                <p class="text-gray-800">{{item.posted_by.username}}</p>
               </div>
+
+
               
               <div>
                 <h3 class="text-sm font-medium text-gray-600">Email</h3>
-                <p class="text-gray-800">john.smith@example.com</p>
+                <p class="text-gray-800">{{item.posted_by.email}}</p>
               </div>
               
+              {% if item.posted_by.phone %}
               <div>
                 <h3 class="text-sm font-medium text-gray-600">Phone</h3>
-                <p class="text-gray-800">(555) 123-4567</p>
+                <p class="text-gray-800">{{item.posted_by.phone}}</p>
               </div>
+              {% endif %}
               
               <div class="pt-4 border-t border-blue-200">
                 <button type="button" class="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
-                  Contact Owner
+                  Contact Poster
                 </button>
               </div>
             </div>

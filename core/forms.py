@@ -8,10 +8,7 @@ class ItemForm(forms.ModelForm):
         required=False,
         help_text='You can upload up to 3 images (Max 5MB each)'
     )
-    image = forms.FileField(
-        widget=forms.ClearableFileInput(attrs={'multiple': False}),
-        required=True,
-    )
+    
 
     class Meta:
         model = Item
@@ -30,7 +27,7 @@ class ItemForm(forms.ModelForm):
                 'placeholder': 'Provide details about the item...'
             }),
             'status': forms.RadioSelect(attrs={
-                'class': 'h-4 w-4 text-blue-600 focus:ring-blue-500'
+                'class': ' h-4 w-4 text-blue-600 focus:ring-blue-500 '
             }),
             'category': forms.Select(attrs={
                 'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
@@ -39,17 +36,19 @@ class ItemForm(forms.ModelForm):
                 'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500'
             }),
             'date_lost_found': forms.DateInput(attrs={
-                'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500',
+                'class': 'w-full px-3 py-2 my-5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500',
                 'type': 'date'
             }),
             'time_lost_found': forms.TimeInput(attrs={
-                'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500',
+                'class': 'w-full px-3 py-2 my-5 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500',
                 'type': 'time'
             }),
             'contact_info': forms.TextInput(attrs={
                 'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500',
                 'placeholder': 'How should people contact you? (Email or phone)'
             }),
+            'image' : forms.FileInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500',})
+      
         }
 
     def clean_images(self):

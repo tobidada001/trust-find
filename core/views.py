@@ -42,7 +42,8 @@ def post_item(request):
                 ItemImage.objects.create(item=item, image=image)
             
             messages.success(request, 'Item posted successfully!')
-            return redirect('item_detail', pk=item.pk)
+            return redirect('lost_found:item_detail', pk=item.pk)
+       
     else:
         form = ItemForm()
     
@@ -98,18 +99,16 @@ def edit_item(request, pk):
 @login_required
 @require_POST
 def delete_item(request, pk):
-    """Delete an item"""
     item = get_object_or_404(Item, pk=pk, posted_by=request.user)
     item.delete()
     messages.success(request, 'Item deleted successfully!')
     return redirect('my_items')
 
 def search_items(request):
-    """Search and filter items"""
     items = Item.objects.filter(
         is_approved=True, 
         item_status='active'
-    ).select_related('category', 'location', 'posted_by')
+    ).select_related('category', 'posted_by')
     
     # Search query
     query = request.GET.get('search', '')
@@ -158,12 +157,17 @@ def search_items(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
+    query_params = request.GET.copy()
+    if 'page' in query_params:
+        del query_params['page']
+    
     context = {
         'page_obj': page_obj,
         'categories': Category.objects.all(),
         'current_filters': {
             'search': query,
             'status': status,
+            'query_string': query_params.urlencode(),
             'category': category,
             'location': location,
             'date_from': date_from,
@@ -174,9 +178,8 @@ def search_items(request):
     return render(request, 'search.html', context)
 
 def item_detail(request, pk):
-    """Item detail view"""
     item = get_object_or_404(
-        Item.objects.select_related('category', 'location', 'posted_by'),
+        Item.objects.select_related('category', 'posted_by'),
         pk=pk,
         is_approved=True
     )
@@ -194,12 +197,11 @@ def item_detail(request, pk):
         'images': images,
         'messages': messages_list,
     }
-    return render(request, 'item_detail.html', context)
+    return render(request, 'item-detail.html', context)
 
 @login_required
 @require_POST
 def send_message(request, pk):
-    """Send a message about an item"""
     item = get_object_or_404(Item, pk=pk, is_approved=True)
     
     if request.user == item.posted_by:
@@ -222,7 +224,6 @@ def send_message(request, pk):
 
 @login_required
 def mark_item_resolved(request, pk):
-    """Mark an item as resolved"""
     item = get_object_or_404(Item, pk=pk, posted_by=request.user)
     item.item_status = 'resolved'
     item.save()
@@ -232,7 +233,6 @@ def mark_item_resolved(request, pk):
 
 @login_required
 def mark_item_active(request, pk):
-    """Mark an item as active again"""
     item = get_object_or_404(Item, pk=pk, posted_by=request.user)
     item.item_status = 'active'
     item.save()

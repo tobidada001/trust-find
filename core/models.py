@@ -56,6 +56,9 @@ class Item(models.Model):
         from django.urls import reverse
         return reverse('item_detail', kwargs={'pk': self.pk})
 
+
+
+
 class ItemImage(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='images')
     image = models.ImageField(upload_to='item_images/')
