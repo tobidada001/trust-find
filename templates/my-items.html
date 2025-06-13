@@ -1,61 +1,60 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container mx-auto py-8 px-4">
+  <h1 class="text-2xl font-bold text-blue-800 mb-6">My Items</h1>
 
-
-  <div class="container mx-auto py-8 px-4">
-    <h1 class="text-2xl font-bold text-blue-800 mb-6">My Items</h1>
-    
-    <div class="bg-white rounded-lg shadow-md p-4 mb-6">
-      <div class="flex justify-between items-center">
-        <h2 class="text-lg font-semibold text-blue-800">Your Posted Items</h2>
-        <a href="post-item.html" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700">Post New Item</a>
-      </div>
-    </div>
-    
-    <div class="space-y-4">
-
-      
-      {% for item in page_obj.object_list %}
-          
-      <!-- Item 1 -->
-      <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-red-500">
-        <div class="flex justify-between items-start">
-          <div>
-            {% if item.status == 'lost' %}
-            <div class="text-sm font-semibold mb-1 inline-block px-2 py-0.5 rounded bg-red-100 text-red-800">Lost</div>
-            {% else %}
-            <div class="text-sm font-semibold mb-1 inline-block px-2 py-0.5 rounded bg-green-100 text-green-800">Lost</div>
-            {% endif %}
-            <h3 class="text-lg font-semibold text-blue-800">{{item.title}}</h3>
-            {% if item.status == 'lost' %}
-            <p class="text-gray-600 mb-2">Lost at {{item.location}} on {{item.date_lost_found}}</p>
-            {% endif %}
-            <p class="text-sm text-gray-500">Posted 3 days ago</p>
-          </div>
-          <div class="flex space-x-2">
-            <a href="edit-item.html?id=1" class="text-blue-600 hover:underline text-sm">Edit</a>
-            <a href="#" class="text-red-600 hover:underline text-sm">Delete</a>
-          </div>
-        </div>
-        <div class="mt-4 flex justify-between items-center">
-          <span class="text-sm text-gray-500">Status: 
-            {% if item.item_status == 'active' %}
-                <span class="font-medium text-green-600">Active</span>
-                {% elif item.item_status == 'resolved' %}
-                <span class="font-medium text-blue-600">Resolved</span>
-                {% else %}
-                <span class="font-medium text-yellow-600">Expired</span>
-
-            {% endif %}
-            </span>
-          <a href="item-details.html?id=1" class="text-blue-600 hover:underline">View Details</a>
-        </div>
-      </div>
-      {% endfor %}
-    
+  <div class="bg-white rounded-lg shadow-md p-4 mb-6">
+    <div class="flex justify-between items-center">
+      <h2 class="text-lg font-semibold text-blue-800">Your Posted Items</h2>
+      <a href="{% url 'lost_found:post_item' %}" class="bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700">Post New Item</a>
     </div>
   </div>
 
+  <div class="space-y-4">
+    {% for item in page_obj.object_list %}
+    <div class="bg-white rounded-lg shadow-md p-4 border-l-4 border-red-500">
+      <div class="flex justify-between items-start">
+        <div>
+          {% if item.status == 'lost' %}
+          <div class="text-sm font-semibold mb-1 inline-block px-2 py-0.5 rounded bg-red-100 text-red-800">Lost</div>
+          {% else %}
+          <div class="text-sm font-semibold mb-1 inline-block px-2 py-0.5 rounded bg-green-100 text-green-800">Found</div>
+          {% endif %}
+          <h3 class="text-lg font-semibold text-blue-800">{{ item.title }}</h3>
+          {% if item.status == 'lost' %}
+          <p class="text-gray-600 mb-2">Lost at {{ item.location }} on {{ item.date_lost_found }}</p>
+          {% endif %}
+          <p class="text-sm text-gray-500">Posted {{ item.created_at|timesince }} ago</p>
+        </div>
+        <div class="flex space-x-2">
+          <a href="{% url 'lost_found:edit_item' item.pk %}" class="text-blue-600 hover:underline text-sm">Edit</a>
+          <a href="{% url 'lost_found:delete_item' item.pk %}" class="text-red-600 hover:underline text-sm">Delete</a>
+        </div>
+      </div>
 
+      <div class="mt-4 flex justify-between items-center">
+        <span class="text-sm text-gray-500">Status:
+          {% if item.item_status == 'active' %}
+          <span class="font-medium text-green-600">Active</span>
+          {% elif item.item_status == 'resolved' %}
+          <span class="font-medium text-blue-600">Resolved</span>
+          {% else %}
+          <span class="font-medium text-yellow-600">Expired</span>
+          {% endif %}
+        </span>
+        <div class="flex items-center gap-3">
+          <a href="{% url 'lost_found:item_detail' item.pk %}" class="text-blue-600 hover:underline">View Details</a>
+          {% if item.item_status != 'resolved' %}
+          <a href="{% url 'lost_found:mark_resolved' item.pk %}" class="text-green-700 hover:underline text-sm">Mark as Resolved</a>
+          {% endif %}
+          {% if item.item_status != 'active' %}
+          <a href="{% url 'lost_found:mark_active' item.pk %}" class="text-blue-700 hover:underline text-sm">Activate</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
 {% endblock %}

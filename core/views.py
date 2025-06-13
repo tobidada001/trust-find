@@ -54,6 +54,8 @@ def post_item(request):
     }
     return render(request, 'post-item.html', context)
 
+
+
 @login_required
 def my_items(request):
     items = Item.objects.filter(posted_by=request.user).select_related(
@@ -70,7 +72,6 @@ def my_items(request):
 
 @login_required
 def edit_item(request, pk):
-    """Edit an existing item"""
     item = get_object_or_404(Item, pk=pk, posted_by=request.user)
     
     if request.method == 'POST':
@@ -97,12 +98,13 @@ def edit_item(request, pk):
     return render(request, 'edit_item.html', context)
 
 @login_required
-@require_POST
 def delete_item(request, pk):
     item = get_object_or_404(Item, pk=pk, posted_by=request.user)
     item.delete()
     messages.success(request, 'Item deleted successfully!')
-    return redirect('my_items')
+    return redirect('lost_found:my_items')
+
+
 
 def search_items(request):
     items = Item.objects.filter(
@@ -226,10 +228,11 @@ def send_message(request, pk):
 def mark_item_resolved(request, pk):
     item = get_object_or_404(Item, pk=pk, posted_by=request.user)
     item.item_status = 'resolved'
+    item.status = 'found'
     item.save()
     
     messages.success(request, 'Item marked as resolved!')
-    return redirect('item_detail', pk=item.pk)
+    return redirect('lost_found:item_detail', pk=item.pk)
 
 @login_required
 def mark_item_active(request, pk):
@@ -238,7 +241,7 @@ def mark_item_active(request, pk):
     item.save()
     
     messages.success(request, 'Item marked as active!')
-    return redirect('item_detail', pk=item.pk)
+    return redirect('lost_found:item_detail', pk=item.pk)
 
 # API Views for AJAX requests
 @login_required
