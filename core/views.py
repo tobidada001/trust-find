@@ -78,7 +78,7 @@ def edit_item(request, pk):
         form = ItemForm(request.POST, request.FILES, instance=item)
         if form.is_valid():
             form.save()
-            
+           
             # Handle new image uploads
             images = request.FILES.getlist('images')
             for image in images:
@@ -95,7 +95,7 @@ def edit_item(request, pk):
         'categories': Category.objects.all(),
         
     }
-    return render(request, 'edit_item.html', context)
+    return render(request, 'edit-item.html', context)
 
 @login_required
 def delete_item(request, pk):

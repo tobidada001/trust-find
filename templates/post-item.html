@@ -4,31 +4,40 @@
   <div class="max-w-5xl mx-auto bg-white rounded-lg shadow-md p-6">
     <h1 class="text-2xl font-bold text-blue-800 mb-6">Post an Item</h1>
 
-    <form method="POST" action="{% url 'lost_found:post_item' %}" enctype="multipart/form-data" >
-      {% csrf_token %} {# Render all fields except status #}
-      
-      {% for field in form %} 
-      
+    <form
+      method="POST"
+      action="{% url 'lost_found:post_item' %}"
+      enctype="multipart/form-data"
+    >
+      {% csrf_token %} {# Render all fields except status #} {% for field in form %} 
       
       {% if field.name != 'status' %}
       <div class="mb-4">
-        {{ field.label_tag }} {{ field }} {% if field.errors %}
-        <p class="text-red-500 text-sm">{{ field.errors }}</p>
-        {% endif %}
+        {{ field.label_tag }} {{ field }} {% if field.errors %} 
+        
+        {% for error in field.errors %}
+        <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+        {% endfor %} {% endif %}
       </div>
       {% endif %} {% endfor %}
 
+  
+      
       <div class="mb-4">
-        <label class="block text-gray-700 font-bold mb-2">Status</label>
-        {% for radio in form.status %}
-        <label class="inline-flex items-center mr-4">
-          {{ radio.tag }}
-          <span class="ml-2">{{ radio.choice_label }}</span>
-        </label>
-        {% endfor %} {% if form.status.errors %}
-        <p class="text-red-500 text-sm mt-1">{{ form.status.errors }}</p>
-        {% endif %}
-      </div>
+          <label class="block text-gray-700 font-bold mb-2">Status</label>
+          {% for radio in form.status %}
+            <label class="inline-flex items-center mr-4">
+              {{ radio.tag }}
+              <span class="ml-2">{{ radio.choice_label }}</span>
+            </label>
+          {% endfor %}
+          {% if form.status.errors %}
+            {% for error in form.status.errors %}
+              <p class="text-red-500 text-sm mt-1">{{ error }}</p>
+            {% endfor %}
+          {% endif %}
+        </div>
+
 
       <button class="py-3 px-5 font-semibold rounded bg-blue-700 text-white">
         Submit

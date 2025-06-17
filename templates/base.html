@@ -17,37 +17,131 @@
         font-family: "Poppins", sans-serif;
       }
     </style>
-
-
   </head>
   <body>
     <div class="min-h-screen bg-gray-50">
       <!-- Navigation -->
-      <nav class="bg-blue-600 text-white p-4 shadow-md">
-        <div class="container mx-auto flex justify-between items-center">
-          <a href="/" class="text-xl font-bold">TrustFind</a>
-          <div class="space-x-4">
-            <a href="{% url 'lost_found:search' %}" class="hover:underline"
-              >Search Items</a
-            >
-            <a href="{% url 'lost_found:post_item' %}" class="hover:underline"
-              >Post Item</a
-            >
-            <a href="{% url 'lost_found:my_items' %}" class="hover:underline"
-              >My Items</a
-            >
-            <a href="{% url 'profile' %}" class="hover:underline">Profile</a>
+   <nav class="bg-indigo-700 text-white p-4 shadow-md">
+  <div class="container mx-auto flex justify-between items-center">
+    <a href="/" class="text-xl font-bold">TrustFind</a>
 
-            {% if request.user.is_authenticated %}
-            <a href="{% url 'logout' %}" class="hover:underline">Logout</a>
+    <!-- Mobile menu button -->
+    <button id="mobile-menu-button" class="md:hidden flex items-center">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="h-6 w-6"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 6h16M4 12h16M4 18h16"
+        />
+      </svg>
+    </button>
 
-            {% else %}
-            <a href="{% url 'login' %}" class="hover:underline">Login</a>
-            <a href="{% url 'register' %}" class="hover:underline">Register</a>
-            {% endif %}
-          </div>
-        </div>
-      </nav>
+    <!-- Desktop Navigation -->
+    <div class="hidden md:flex space-x-4">
+      <a
+        href="{% url 'lost_found:search' %}"
+        class="{% if request.resolver_match.url_name == 'search' %}border-b-2 border-white font-semibold pb-1{% else %}hover:border-b-2 hover:border-white pb-1{% endif %}"
+        >Search Items</a
+      >
+      <a
+        href="{% url 'lost_found:post_item' %}"
+        class="{% if request.resolver_match.url_name == 'post_item' %}border-b-2 border-white font-semibold pb-1{% else %}hover:border-b-2 hover:border-white pb-1{% endif %}"
+        >Post Item</a
+      >
+      <a
+        href="{% url 'lost_found:my_items' %}"
+        class="{% if request.resolver_match.url_name == 'my_items' %}border-b-2 border-white font-semibold pb-1{% else %}hover:border-b-2 hover:border-white pb-1{% endif %}"
+        >My Items</a
+      >
+      <a
+        href="{% url 'profile' %}"
+        class="{% if request.resolver_match.url_name == 'profile' %}border-b-2 border-white font-semibold pb-1{% else %}hover:border-b-2 hover:border-white pb-1{% endif %}"
+        >Profile</a
+      >
+
+      {% if request.user.is_authenticated %}
+      <a href="{% url 'logout' %}" class="hover:border-b-2 hover:border-white pb-1">Logout</a>
+      {% else %}
+      <a
+        href="{% url 'login' %}"
+        class="{% if request.resolver_match.url_name == 'login' %}border-b-2 border-white font-semibold pb-1{% else %}hover:border-b-2 hover:border-white pb-1{% endif %}"
+        >Login</a
+      >
+      <a
+        href="{% url 'register' %}"
+        class="{% if request.resolver_match.url_name == 'register' %}border-b-2 border-white font-semibold pb-1{% else %}hover:border-b-2 hover:border-white pb-1{% endif %}"
+        >Register</a
+      >
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Mobile Navigation -->
+  <div id="mobile-menu" class="hidden md:hidden">
+    <div class="pt-2 pb-3 space-y-1 bg-indigo-600">
+      <a
+        href="{% url 'lost_found:search' %}"
+        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'search' %}bg-indigo-800 font-semibold border-l-4 border-white{% else %}hover:bg-indigo-800{% endif %}"
+        >Search Items</a
+      >
+      <a
+        href="{% url 'lost_found:post_item' %}"
+        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'post_item' %}bg-indigo-800 font-semibold border-l-4 border-white{% else %}hover:bg-indigo-800{% endif %}"
+        >Post Item</a
+      >
+      <a
+        href="{% url 'lost_found:my_items' %}"
+        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'my_items' %}bg-indigo-800 font-semibold border-l-4 border-white{% else %}hover:bg-indigo-800{% endif %}"
+        >My Items</a
+      >
+      <a
+        href="{% url 'profile' %}"
+        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'profile' %}bg-indigo-800 font-semibold border-l-4 border-white{% else %}hover:bg-indigo-800{% endif %}"
+        >Profile</a
+      >
+
+      {% if request.user.is_authenticated %}
+      <a
+        href="{% url 'logout' %}"
+        class="block px-3 py-2 rounded-md hover:bg-indigo-800"
+        >Logout</a
+      >
+      {% else %}
+      <a
+        href="{% url 'login' %}"
+        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'login' %}bg-indigo-800 font-semibold border-l-4 border-white{% else %}hover:bg-indigo-800{% endif %}"
+        >Login</a
+      >
+      <a
+        href="{% url 'register' %}"
+        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'register' %}bg-indigo-800 font-semibold border-l-4 border-white{% else %}hover:bg-indigo-800{% endif %}"
+        >Register</a
+      >
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+
+      <!-- JavaScript for mobile menu toggle -->
+      <script>
+        document.addEventListener("DOMContentLoaded", function () {
+          const mobileMenuButton =
+            document.getElementById("mobile-menu-button");
+          const mobileMenu = document.getElementById("mobile-menu");
+
+          mobileMenuButton.addEventListener("click", function () {
+            mobileMenu.classList.toggle("hidden");
+          });
+        });
+      </script>
 
       {% if messages %}
       <div class="container mx-auto mt-4">
@@ -62,9 +156,6 @@
       {% endif %} {% block content %} {% endblock content %}
     </div>
 
-
-    {% block script %}
-
-    {% endblock script %}
+    {% block script %} {% endblock script %}
   </body>
 </html>

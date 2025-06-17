@@ -49,7 +49,7 @@
           <a href="{% url 'lost_found:mark_resolved' item.pk %}" class="text-green-700 hover:underline text-sm">Mark as Resolved</a>
           {% endif %}
           {% if item.item_status != 'active' %}
-          <a href="{% url 'lost_found:mark_active' item.pk %}" class="text-blue-700 hover:underline text-sm">Activate</a>
+          <a href="{% url 'lost_found:mark_active' item.pk %}" class="text-blue-700 hover:underline text-sm">Mark as Unresolved</a>
           {% endif %}
         </div>
       </div>

@@ -40,7 +40,7 @@ class Item(models.Model):
     image = models.ImageField(upload_to='items/')
     date_lost_found = models.DateField()
     time_lost_found = models.TimeField(blank=True, null=True)
-    contact_info = models.CharField(max_length=200)
+    contact_info = models.CharField(max_length=200, null=True, blank=True)
     posted_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='items')
     is_approved = models.BooleanField(default=True)  # Set to False if moderation is required
     created_at = models.DateTimeField(auto_now_add=True)
