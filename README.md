@@ -114,4 +114,4 @@ This project is for educational purposes at the University of Ibadan. Please con
 
 ## Contact
 
-For support or questions, please open an issue or contact the project maintainer.
+For support or questions, please open an issue or [contact me](https://github.com/tobidada001).
