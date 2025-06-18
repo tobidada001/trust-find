@@ -13,7 +13,13 @@
               <span class="font-semibold">{{ thread.sender__username }}</span> sent you a message about 
               <span class="text-blue-600 font-medium">"{{ thread.item__title }}"</span>
             </div>
-            <div class="text-xs text-gray-400 mt-1">Last message: {{ thread.latest|timesince }}</div>
+            {% if thread.unread_count > 0 %}
+            <div class="text-xs text-gray-400 mt-1 flex sm:flex-row flex-col justify-between"><span>Last message: 
+              {{ thread.latest|timesince }}</span> <span class="py-1 px-2 rounded-full bg-red-600 text-white">{{thread.unread_count}}</span> </div>
+            {% else %}
+            <div class="text-xs text-gray-400 mt-1"><span>Last message: 
+              {{ thread.latest|timesince }}</span> </div>
+            {% endif %}
           </a>
         {% endfor %}
       </div>

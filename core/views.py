@@ -2,11 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.db.models import Q, Max
+from django.db.models import Q, Max, Count
 from django.core.paginator import Paginator
 from django.contrib.auth import get_user_model
 from .models import Item, Category, User, ItemImage, Message
-from .forms import ItemForm,  MessageForm
+from .forms import ItemForm
 import json
 
 User = get_user_model()
@@ -209,6 +209,7 @@ def mark_item_resolved(request, pk):
     messages.success(request, 'Item marked as resolved!')
     return redirect('lost_found:item_detail', pk=item.pk)
 
+
 @login_required
 def mark_item_active(request, pk):
     item = get_object_or_404(Item, pk=pk, posted_by=request.user)
@@ -246,13 +247,15 @@ def send_message(request, pk):
 
 @login_required
 def inbox(request):
-    # messages = Message.objects.filter(receiver=request.user)
     
     grouped_threads = (
         Message.objects
         .filter(Q(receiver=request.user) | Q(sender=request.user))
         .values('sender_id', 'sender__username', 'item_id', 'item__title')
-        .annotate(latest=Max('created_at'))
+        .annotate(latest=Max('created_at'),
+                  
+                  unread_count=Count('id', filter=Q(receiver=request.user, is_read=False))
+                  )
         .order_by('-latest')
     )
     return render(request, 'inbox.html', {'inbox': grouped_threads})
@@ -266,6 +269,10 @@ def read_inbox(request, item_id, sender_id):
 
     item = get_object_or_404(Item, pk=item_id)
     sender = get_object_or_404(User, pk=sender_id)
+    
+    Message.objects.filter(
+        Q(sender_id=sender_id,  item_id=item_id) | Q(receiver_id=sender_id, item_id=item_id)
+    ).update(is_read = True)
     
     
     if request.method == 'POST':
