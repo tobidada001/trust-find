@@ -61,6 +61,11 @@
         >My Items</a
       >
       <a
+        href="{% url 'lost_found:inbox' %}"
+        class="{% if request.resolver_match.url_name == 'inbox' %}border-b-2 border-white font-semibold pb-1{% else %}hover:border-b-2 hover:border-white pb-1{% endif %}"
+        >Inbox</a
+      >
+      <a
         href="{% url 'profile' %}"
         class="{% if request.resolver_match.url_name == 'profile' %}border-b-2 border-white font-semibold pb-1{% else %}hover:border-b-2 hover:border-white pb-1{% endif %}"
         >Profile</a
@@ -100,6 +105,11 @@
         href="{% url 'lost_found:my_items' %}"
         class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'my_items' %}bg-indigo-800 font-semibold border-l-4 border-white{% else %}hover:bg-indigo-800{% endif %}"
         >My Items</a
+      >
+      <a
+        href="{% url 'lost_found:inbox' %}"
+        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'inbox' %}bg-indigo-800 font-semibold border-l-4 border-white{% else %}hover:bg-indigo-800{% endif %}"
+        >Inbox</a
       >
       <a
         href="{% url 'profile' %}"

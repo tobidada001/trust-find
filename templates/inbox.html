@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="max-w-3xl mx-auto mt-8">
+    <h2 class="text-2xl font-semibold mb-6">Your Inbox</h2>
+
+    {% if inbox %}
+      <div class="space-y-4">
+        {% for thread in inbox %}
+          <a href="{% url 'lost_found:read_inbox' thread.item_id thread.sender_id %}" 
+             class="block p-4 bg-white rounded-xl border hover:shadow transition">
+            <div class="text-sm text-gray-600">
+              <span class="font-semibold">{{ thread.sender__username }}</span> sent you a message about 
+              <span class="text-blue-600 font-medium">"{{ thread.item__title }}"</span>
+            </div>
+            <div class="text-xs text-gray-400 mt-1">Last message: {{ thread.latest|timesince }}</div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-gray-600">You have no messages.</p>
+    {% endif %}
+  </div>
+{% endblock %}

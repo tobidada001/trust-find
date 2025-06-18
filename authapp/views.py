@@ -36,6 +36,8 @@ def login_view(request):
         if auth:
             login(request, auth)
             messages.success(request, 'You are logged in successfully')
+            if request.GET.get('next'):
+                return redirect(request.GET['next'])
             return redirect(reverse_lazy('lost_found:home'))
         
         

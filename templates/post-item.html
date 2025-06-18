@@ -9,7 +9,9 @@
       action="{% url 'lost_found:post_item' %}"
       enctype="multipart/form-data"
     >
-      {% csrf_token %} {# Render all fields except status #} {% for field in form %} 
+      {% csrf_token %} {# Render all fields except status #} 
+      
+      {% for field in form %} 
       
       {% if field.name != 'status' %}
       <div class="mb-4">

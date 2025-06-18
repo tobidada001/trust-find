@@ -1,16 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.contrib.auth import login, authenticate
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.db.models import Q
+from django.db.models import Q, Max
 from django.core.paginator import Paginator
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
+from django.contrib.auth import get_user_model
 from .models import Item, Category, User, ItemImage, Message
 from .forms import ItemForm,  MessageForm
 import json
-
-from django.contrib.auth import get_user_model
 
 User = get_user_model()
 
@@ -201,28 +198,6 @@ def item_detail(request, pk):
     }
     return render(request, 'item-detail.html', context)
 
-@login_required
-@require_POST
-def send_message(request, pk):
-    item = get_object_or_404(Item, pk=pk, is_approved=True)
-    
-    if request.user == item.posted_by:
-        return JsonResponse({'error': 'You cannot message yourself'}, status=400)
-    
-    content = request.POST.get('content', '').strip()
-    if not content:
-        return JsonResponse({'error': 'Message content is required'}, status=400)
-    
-    message = Message.objects.create(
-        item=item,
-        sender=request.user,
-        content=content
-    )
-    
-    return JsonResponse({
-        'success': True,
-        'message': 'Message sent successfully!'
-    })
 
 @login_required
 def mark_item_resolved(request, pk):
@@ -243,11 +218,65 @@ def mark_item_active(request, pk):
     messages.success(request, 'Item marked as active!')
     return redirect('lost_found:item_detail', pk=item.pk)
 
-# API Views for AJAX requests
+
+
 @login_required
-def delete_image(request, pk):
+def send_message(request, pk):
+    item = get_object_or_404(Item, pk=pk)
+
+    if item.posted_by == request.user:
+        # Optional: Prevent sending messages to yourself
+        return redirect(item.get_absolute_url())
+
     if request.method == 'POST':
-        image = get_object_or_404(ItemImage, pk=pk, item__posted_by=request.user)
-        image.delete()
-        return JsonResponse({'success': True})
-    return JsonResponse({'error': 'Invalid request'}, status=400)
+        content = request.POST.get('content', '').strip()
+        if content:
+            Message.objects.create(
+                item=item,
+                sender=request.user,
+                receiver=item.posted_by,
+                content=content
+            )
+            
+            messages.success(request, "Message sent successfully.")
+            return redirect(item.get_absolute_url())
+
+    return render(request, 'send_message.html', {'item': item})
+
+
+@login_required
+def inbox(request):
+    # messages = Message.objects.filter(receiver=request.user)
+    
+    grouped_threads = (
+        Message.objects
+        .filter(Q(receiver=request.user) | Q(sender=request.user))
+        .values('sender_id', 'sender__username', 'item_id', 'item__title')
+        .annotate(latest=Max('created_at'))
+        .order_by('-latest')
+    )
+    return render(request, 'inbox.html', {'inbox': grouped_threads})
+
+
+@login_required
+def read_inbox(request, item_id, sender_id):
+    messages = Message.objects.filter(
+        Q(sender_id=sender_id,  item_id=item_id) | Q(receiver_id=sender_id, item_id=item_id)
+    ).order_by('created_at')
+
+    item = get_object_or_404(Item, pk=item_id)
+    sender = get_object_or_404(User, pk=sender_id)
+    
+    
+    if request.method == 'POST':
+        content = request.POST.get('content', '').strip()
+        if content:
+            Message.objects.create(
+                item=item,
+                sender=request.user,
+                receiver=sender,
+                content=content
+            )
+            return redirect('lost_found:read_inbox', item_id=item_id, sender_id=sender_id)
+
+    return render(request, 'inbox_detail.html', {'inbox_messages': messages, 'item': item, 'sender': sender})

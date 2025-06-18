@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="max-w-2xl mx-auto mt-8 bg-white p-6 rounded-xl shadow">
+  <h2 class="text-xl font-semibold mb-4">Conversation with {{ sender.username }} about "{{ item.title }}"</h2>
+
+  <div class="space-y-4">
+    {% for message in inbox_messages %}
+      <div class="p-3 rounded-xl flex gap-2 items-center {% if message.sender == request.user %} ml-20 {% else %} mr-20 {% endif %}  {{ message.is_read|yesno:'bg-gray-100,bg-blue-50' }}">
+       
+        <div>
+            {% if message.sender.profile_photo %}
+            <img src="{{ message.sender.profile_photo.url }}" class="w-7 h-7 rounded-full" />
+            {% else %}
+            <img src="{% static 'user.png' %}" class="w-7 h-7 rounded-full" />
+
+            {% endif %}
+        </div>
+
+        <div class="text-sm text-gray-800">
+          <span class="font-medium">{{ message.sender.username }}</span>: {{ message.content }}
+        </div>
+        <div class="text-xs text-gray-400">{{ message.created_at|timesince }}</div>
+      </div>
+    {% empty %}
+      <p>No messages in this thread yet.</p>
+    {% endfor %}
+  </div>
+
+
+    <!-- Reply Form -->
+  <form method="post" action="" class="space-y-4">
+    {% csrf_token %}
+    <textarea name="content" rows="3" placeholder="Type your reply..." required
+      class="w-full rounded-xl border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"></textarea>
+
+    <button type="submit"
+      class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-xl transition">
+      Send Reply
+    </button>
+  </form>
+
+</div>
+{% endblock %}

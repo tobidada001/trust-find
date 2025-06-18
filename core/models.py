@@ -54,7 +54,7 @@ class Item(models.Model):
 
     def get_absolute_url(self):
         from django.urls import reverse
-        return reverse('item_detail', kwargs={'pk': self.pk})
+        return reverse('lost_found:item_detail', kwargs={'pk': self.pk})
 
 
 
@@ -67,10 +67,12 @@ class ItemImage(models.Model):
 
     def __str__(self):
         return f"Image for {self.item.title}"
+    
 
 class Message(models.Model):
     item = models.ForeignKey(Item, on_delete=models.CASCADE, related_name='messages')
     sender = models.ForeignKey(User, on_delete=models.CASCADE)
+    receiver = models.ForeignKey(User, on_delete=models.CASCADE, related_name='received')
     content = models.TextField()
     created_at = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default=False)

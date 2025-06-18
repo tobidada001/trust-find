@@ -20,7 +20,7 @@ urlpatterns = [
     
     # Messages
     path('item/<uuid:pk>/message/', views.send_message, name='send_message'),
-    
-    # AJAX endpoints
-    path('api/delete-image/<int:pk>/', views.delete_image, name='delete_image'),
+    path('inbox', views.inbox, name='inbox'),
+    path('inbox/<uuid:item_id>/<int:sender_id>/', views.read_inbox, name='read_inbox'),
+
 ]
