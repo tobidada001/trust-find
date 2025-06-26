@@ -1,0 +1,18 @@
+{
+  "name": "lostandfound",
+  "version": "1.0.0",
+  "description": "TrustFind is a Django-based web application for managing lost and found items, designed for the University of Ibadan community. Users can report lost or found items, search for items, manage their own listings, and communicate securely with other users.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tailwindcss -i ./static/css/input.css -o ./static/css/styles.css --minify"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "autoprefixer": "^10.4.21",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^3.3.5"
+  }
+}
