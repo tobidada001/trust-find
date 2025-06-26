@@ -177,7 +177,13 @@
               <h3 class="text-sm font-medium text-gray-600">Phone</h3>
               <p class="text-gray-800">{{item.posted_by.phone}}</p>
             </div>
-            {% endif %} {% if item.contact_info %}
+            {% endif %}
+            
+            {% if item.posted_by.phone and item.contact_info %} 
+            <p class=''>--Or--</p>
+            {% endif %}
+
+            {% if item.contact_info %}
             <div>
               <h3 class="text-sm font-medium text-gray-600">Reach me on</h3>
               <p class="text-gray-800">{{item.contact_info}}</p>
@@ -186,12 +192,9 @@
             {% endif %} 
             
             
-            {% if item.phone or item.contact_info %} 
-
-
-
+            {% if item.whatsapp_contact or item.posted_by.whatsapp_contact %} 
             
-            {% with item.phone|default:item.contact_info as phone_number %}
+            {% with item.whatsapp_contact|default:item.posted_by.whatsapp_contact as phone_number %}
             <div>
               <h3 class="text-sm font-medium text-gray-600">Reach me on</h3>
               <p class="text-gray-800">{{ phone_number }}</p>
@@ -220,17 +223,7 @@
 
 
             <div>
-                  <!-- Platform Message Button -->
-      {% comment %} <a 
-        href="/message/{{ item.id }}/" 
-        class="mt-2 inline-flex items-center px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded hover:bg-blue-600 transition"
-      >
-        Send Message
-        <svg class="ml-2 w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z" />
-        </svg>
-      </a> {% endcomment %}
-
+          
 
       {% if request.user != item.posted_by %}
   <a 

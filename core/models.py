@@ -41,6 +41,7 @@ class Item(models.Model):
     date_lost_found = models.DateField()
     time_lost_found = models.TimeField(blank=True, null=True)
     contact_info = models.CharField(max_length=200, null=True, blank=True)
+    whatsapp_contact = models.CharField(max_length=15, null=True, blank=True, help_text="Provide WhatsApp contact number if you prefer being contacted via WhatsApp.")
     posted_by = models.ForeignKey(User, on_delete=models.CASCADE, related_name='items')
     is_approved = models.BooleanField(default=True)  # Set to False if moderation is required
     created_at = models.DateTimeField(auto_now_add=True)

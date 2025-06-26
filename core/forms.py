@@ -14,7 +14,7 @@ class ItemForm(forms.ModelForm):
         model = Item
         fields = [
             'title', 'description', 'status', 'category', 'location', 'image',
-            'date_lost_found', 'time_lost_found', 'contact_info'
+            'date_lost_found', 'time_lost_found', 'contact_info', 'whatsapp_contact', 
         ]
         widgets = {
             'title': forms.TextInput(attrs={
@@ -46,7 +46,11 @@ class ItemForm(forms.ModelForm):
             }),
             'contact_info': forms.TextInput(attrs={
                 'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500',
-                'placeholder': 'How should people contact you? (Email or phone)'
+                'placeholder': 'Email/phone number for people to contact you? (Optional)'
+            }),
+            'whatsapp_contact': forms.TextInput(attrs={
+                'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500',
+                'placeholder': 'WhatsApp number (if you prefer WhatsApp)'
             }),
             'image' : forms.FileInput(attrs={'class': 'w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500',})
       
