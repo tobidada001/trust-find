@@ -70,3 +70,4 @@ Pipfile.lock
 package-lock.json   
 # Node modules
 node_modules/
+.env
