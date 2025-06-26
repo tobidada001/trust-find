@@ -174,7 +174,7 @@
 
             {% if item.posted_by.phone %}
             <div>
-              <h3 class="text-sm font-medium text-gray-600">Phone</h3>
+              <h3 class="text-sm font-medium text-gray-600">{{item.posted_by.username}}'s Contact</h3>
               <p class="text-gray-800">{{item.posted_by.phone}}</p>
             </div>
             {% endif %}
@@ -226,13 +226,13 @@
           
 
       {% if request.user != item.posted_by %}
-  <a 
-    href="{% url 'lost_found:send_message' item.id %}" 
-    class="mt-2 inline-flex items-center px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded hover:bg-blue-600 transition"
-  >
-    Send Message
-  </a>
-{% endif %}
+        <a 
+          href="{% url 'lost_found:send_message' item.id %}" 
+          class="mt-2 inline-flex items-center px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded hover:bg-blue-600 transition"
+        >
+          Send Message
+        </a>
+      {% endif %}
     </div>
           </div>
         </div>

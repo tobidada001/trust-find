@@ -194,7 +194,7 @@ def item_detail(request, pk):
     context = {
         'item': item,
         'images': images,
-        'messages': messages_list,
+        # 'messages': messages_list,
     }
     return render(request, 'item-detail.html', context)
 
