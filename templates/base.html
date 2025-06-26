@@ -47,41 +47,41 @@
     <div class="hidden md:flex space-x-4">
       <a
         href="{% url 'lost_found:search' %}"
-        class="{% if request.resolver_match.url_name == 'search' %}border-b-2 border-white font-semibold pb-1{% else %}hover:border-b-2 hover:border-white pb-1{% endif %}"
+        class="{% if request.resolver_match.url_name == 'search' %} bg-white  text-blue-600 rounded-md font-semibold  {% endif %} py-2 px-3"
         >Search Items</a
       >
       <a
         href="{% url 'lost_found:post_item' %}"
-        class="{% if request.resolver_match.url_name == 'post_item' %}border-b-2 border-white font-semibold pb-1{% else %}hover:border-b-2 hover:border-white pb-1{% endif %}"
+        class="{% if request.resolver_match.url_name == 'post_item' %}bg-white  text-blue-600 rounded-md font-semibold  {% endif %} py-2 px-3"
         >Post Item</a
       >
       <a
         href="{% url 'lost_found:my_items' %}"
-        class="{% if request.resolver_match.url_name == 'my_items' %}border-b-2 border-white font-semibold pb-1{% else %}hover:border-b-2 hover:border-white pb-1{% endif %}"
+        class="{% if request.resolver_match.url_name == 'my_items' %}bg-white  text-blue-600 rounded-md font-semibold  {% endif %} py-2 px-3"
         >My Items</a
       >
       <a
         href="{% url 'lost_found:inbox' %}"
-        class="{% if request.resolver_match.url_name == 'inbox' %}border-b-2 border-white font-semibold pb-1{% else %}hover:border-b-2 hover:border-white pb-1{% endif %}"
+        class="{% if request.resolver_match.url_name == 'inbox' %}bg-white  text-blue-600 rounded-md font-semibold  {% endif %} py-2 px-3"
         >Inbox</a
       >
       <a
         href="{% url 'profile' %}"
-        class="{% if request.resolver_match.url_name == 'profile' %}border-b-2 border-white font-semibold pb-1{% else %}hover:border-b-2 hover:border-white pb-1{% endif %}"
+        class="{% if request.resolver_match.url_name == 'profile' %}bg-white text-blue-600 rounded-md font-semibold  {% endif %} py-2 px-3"
         >Profile</a
       >
 
       {% if request.user.is_authenticated %}
-      <a href="{% url 'logout' %}" class="hover:border-b-2 hover:border-white pb-1">Logout</a>
+      <a href="{% url 'logout' %}" class="py-2 px-3 hover:bg-red-500 hover:text-white rounded-md ">Logout</a>
       {% else %}
       <a
         href="{% url 'login' %}"
-        class="{% if request.resolver_match.url_name == 'login' %}border-b-2 border-white font-semibold pb-1{% else %}hover:border-b-2 hover:border-white pb-1{% endif %}"
+        class="{% if request.resolver_match.url_name == 'login' %}bg-white  text-blue-600 rounded-md font-semibold {% endif %} py-2 px-3"
         >Login</a
       >
       <a
         href="{% url 'register' %}"
-        class="{% if request.resolver_match.url_name == 'register' %}border-b-2 border-white font-semibold pb-1{% else %}hover:border-b-2 hover:border-white pb-1{% endif %}"
+        class="{% if request.resolver_match.url_name == 'register' %}bg-white  text-blue-600 rounded-md font-semibold {% endif %} py-2 px-3"
         >Register</a
       >
       {% endif %}
@@ -93,45 +93,45 @@
     <div class="pt-2 pb-3 space-y-1 bg-indigo-600">
       <a
         href="{% url 'lost_found:search' %}"
-        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'search' %}bg-indigo-800 font-semibold border-l-4 border-white{% else %}hover:bg-indigo-800{% endif %}"
+        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'search' %}bg-white  text-blue-600 rounded-md font-semibold{% endif %}"
         >Search Items</a
       >
       <a
         href="{% url 'lost_found:post_item' %}"
-        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'post_item' %}bg-indigo-800 font-semibold border-l-4 border-white{% else %}hover:bg-indigo-800{% endif %}"
+        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'post_item' %}bg-white  text-blue-600 rounded-md font-semibold{% endif %}"
         >Post Item</a
       >
       <a
         href="{% url 'lost_found:my_items' %}"
-        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'my_items' %}bg-indigo-800 font-semibold border-l-4 border-white{% else %}hover:bg-indigo-800{% endif %}"
+        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'my_items' %}bg-white  text-blue-600 rounded-md font-semibold{% endif %}"
         >My Items</a
       >
       <a
         href="{% url 'lost_found:inbox' %}"
-        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'inbox' %}bg-indigo-800 font-semibold border-l-4 border-white{% else %}hover:bg-indigo-800{% endif %}"
+        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'inbox' %}bg-white  text-blue-600 rounded-md font-semibold{% endif %}"
         >Inbox</a
       >
       <a
         href="{% url 'profile' %}"
-        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'profile' %}bg-indigo-800 font-semibold border-l-4 border-white{% else %}hover:bg-indigo-800{% endif %}"
+        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'profile' %}bg-white  text-blue-600 rounded-md font-semibold{% endif %}"
         >Profile</a
       >
 
       {% if request.user.is_authenticated %}
       <a
         href="{% url 'logout' %}"
-        class="block px-3 py-2 rounded-md hover:bg-indigo-800"
+        class="block px-3 py-2 hover:bg-red-500 hover:text-white rounded-md hover:font-semibold"
         >Logout</a
       >
       {% else %}
       <a
         href="{% url 'login' %}"
-        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'login' %}bg-indigo-800 font-semibold border-l-4 border-white{% else %}hover:bg-indigo-800{% endif %}"
+        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'login' %}bg-white  text-blue-600 rounded-md font-semibold{% endif %}"
         >Login</a
       >
       <a
         href="{% url 'register' %}"
-        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'register' %}bg-indigo-800 font-semibold border-l-4 border-white{% else %}hover:bg-indigo-800{% endif %}"
+        class="block px-3 py-2 rounded-md {% if request.resolver_match.url_name == 'register' %}bg-white  text-blue-600 rounded-md font-semibold{% endif %}"
         >Register</a
       >
       {% endif %}

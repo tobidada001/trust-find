@@ -55,11 +55,11 @@
         <div class="md:col-span-2">
           <div class="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg mb-4">
             <div
-              class="flex items-center justify-center h-64 bg-gray-200 rounded-lg"
+              class="flex items-center justify-center h-64 md:h-96 bg-gray-200 rounded-lg"
             >
               <img
                 id="main-image"
-                src="{{ item.image.url }}"
+                src="{{ item.image.url }}" 
                 class="h-full w-full"
               />
             </div>
@@ -122,7 +122,7 @@
                     >Around {{item.time_lost_found}}</span
                   >
                 </li>
-                <li class="flex">
+                <li class="flex gap-6">
                   <span class="text-gray-600 w-24">Location:</span>
                   <span class="text-gray-800">{{item.location}}</span>
                 </li>
