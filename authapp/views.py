@@ -19,6 +19,9 @@ def logout_view(request):
 
 def login_view(request):
     
+    if request.user.is_authenticated:
+        return redirect(reverse_lazy('lost_found:my_items'))
+    
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -38,7 +41,7 @@ def login_view(request):
             messages.success(request, 'You are logged in successfully')
             if request.GET.get('next'):
                 return redirect(request.GET['next'])
-            return redirect(reverse_lazy('lost_found:home'))
+            return redirect(reverse_lazy('lost_found:my_items'))
         
         
         messages.error(request, "Invalid credentials")
@@ -67,7 +70,7 @@ def register_view(request):
             if User.objects.filter(username=username).exists():
                 messages.error(request, "Username already exists.")
             elif User.objects.filter(email=email).exists():
-                messages.error(request, "Email already in use.")
+                messages.error(request, "Email already exists.")
             else:
                 user = User.objects.create_user(username=username, password=password, email=email, phone= phone)
                 login(request, user)

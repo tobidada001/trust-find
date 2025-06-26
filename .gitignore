@@ -15,7 +15,7 @@ media/
 staticfiles/
 static_root/
 local_settings.py
-
+media.zip
 # Django Migrations
 
 **/migrations/*.pyc

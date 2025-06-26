@@ -54,6 +54,13 @@
         </div>
       </div>
     </div>
+
+    {% empty %}
+    <div class="text-center mt-10">
+      <p class="text-gray-600">You have not posted any items yet.</p>
+      <a href="{% url 'lost_found:post_item' %}" class="text-blue-600 hover:underline">Post a new item</a>
+    </div>
+
     {% endfor %}
   </div>
 </div>
