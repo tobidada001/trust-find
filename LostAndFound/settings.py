@@ -32,7 +32,6 @@ INSTALLED_APPS = [
     'authapp',
     'core',
     
-    'django_seed'
 ]
 
 MIDDLEWARE = [
