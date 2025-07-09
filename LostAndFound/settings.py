@@ -15,7 +15,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = os.getenv('SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -30,7 +30,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     'authapp',
-    'core'
+    'core',
+    
+    'django_seed'
 ]
 
 MIDDLEWARE = [

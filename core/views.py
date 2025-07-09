@@ -15,7 +15,7 @@ def home(request):
     recent_items = Item.objects.filter(
         is_approved=True, 
         item_status='active'
-    ).select_related('category', 'posted_by')[:6]
+    ).select_related('category', 'posted_by')[:9]
     
     context = {
         'recent_items': recent_items,
@@ -58,7 +58,7 @@ def my_items(request):
     items = Item.objects.filter(posted_by=request.user).select_related(
         'category').order_by('-created_at')
     
-    paginator = Paginator(items, 10)
+    paginator = Paginator(items, 21)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     
@@ -152,7 +152,7 @@ def search_items(request):
         items = items.order_by('-created_at')
     
     # Pagination
-    paginator = Paginator(items, 12)
+    paginator = Paginator(items, 21)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     

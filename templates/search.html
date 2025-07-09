@@ -153,10 +153,14 @@
     {% endfor %}
   </div>
 
+
+
+
+
   <!-- Pagination -->
  {% if page_obj.has_other_pages %}
-  <div class="mt-6 flex justify-center">
-    <nav class="inline-flex items-center -space-x-px text-sm">
+  <div class="mt-6 flex justify-center flex-wrap">
+    <nav class="inline-flex items-center flex-wrap -space-x-px text-sm">
       
       {% if page_obj.has_previous %}
         <a href="?page={{ page_obj.previous_page_number }}{% if query_string %}&{{ query_string }}{% endif %}" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 hover:bg-gray-50 rounded-l-md">
@@ -164,15 +168,21 @@
         </a>
       {% endif %}
 
-      {% for page_num in page_obj.paginator.page_range %}
-        {% if page_num == page_obj.number %}
-          <span class="px-3 py-2 bg-blue-50 text-blue-600 font-medium">{{ page_num }}</span>
-        {% else %}
-          <a href="?page={{ page_num }}{% if query_string %}&{{ query_string }}{% endif %}" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
-            {{ page_num }}
-          </a>
-        {% endif %}
-      {% endfor %}
+      {% with current=page_obj.number total=page_obj.paginator.num_pages %}
+  {% for num in page_obj.paginator.page_range %}
+    {% if num == 1 or num == total or num >= current|add:-3 and num <= current|add:4 %}
+      {% if num == page_obj.number %}
+        <span class="px-3 py-2 bg-blue-50 text-blue-600 font-medium">{{ num }}</span>
+      {% else %}
+        <a href="?page={{ num }}{% if query_string %}&{{ query_string }}{% endif %}" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 hover:bg-gray-50">
+          {{ num }}
+        </a>
+      {% endif %}
+    {% elif num == current|add:-3 or num == current|add:3 %}
+      <span class="px-3 py-2 text-gray-400">…</span>
+    {% endif %}
+  {% endfor %}
+{% endwith %}
 
       {% if page_obj.has_next %}
         <a href="?page={{ page_obj.next_page_number }}{% if query_string %}&{{ query_string }}{% endif %}" class="px-3 py-2 border border-gray-300 bg-white text-gray-500 hover:bg-gray-50 rounded-r-md">
