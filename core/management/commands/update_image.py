@@ -24,7 +24,7 @@ class Command(BaseCommand):
         default_image_filename = 'defaultimage.png'
         image_dir = os.path.join(settings.MEDIA_ROOT, 'items')
 
-        items = Item.objects.filter(image='items/default.png')  # Only items with no image
+        items = Item.objects.filter()  # Only items with no image
 
         if not items.exists():
             self.stdout.write(self.style.WARNING("No items without images found."))
@@ -62,12 +62,12 @@ class Command(BaseCommand):
                                 matched = True
                                 break
 
-            # 3. Use default image if still unmatched
-            if not matched:
-                default_image_path = os.path.join(image_dir, default_image_filename)
-                if os.path.exists(default_image_path):
-                    with open(default_image_path, 'rb') as img_file:
-                        item.image.save(f"{item.pk}.jpg", File(img_file), save=True)
-                        self.stdout.write(self.style.WARNING(f"[DEFAULT] Used default image for: {item.title}"))
-                else:
-                    self.stdout.write(self.style.ERROR(f"Default image not found. Skipped: {item.title}"))
+            # # 3. Use default image if still unmatched
+            # if not matched:
+            #     default_image_path = os.path.join(image_dir, default_image_filename)
+            #     if os.path.exists(default_image_path):
+            #         with open(default_image_path, 'rb') as img_file:
+            #             item.image.save(f"{item.pk}.jpg", File(img_file), save=True)
+            #             self.stdout.write(self.style.WARNING(f"[DEFAULT] Used default image for: {item.title}"))
+            #     else:
+            #         self.stdout.write(self.style.ERROR(f"Default image not found. Skipped: {item.title}"))

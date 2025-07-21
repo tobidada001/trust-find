@@ -1,5 +1,7 @@
 {% extends 'base.html' %} 
 
+{% load static %}
+
 {% block content %}
 
 <div class="container mx-auto py-8 px-4">
@@ -55,13 +57,21 @@
         <div class="md:col-span-2">
           <div class="aspect-w-16 aspect-h-9 bg-gray-100 rounded-lg mb-4">
             <div
-              class="flex items-center justify-center h-64 md:h-96 bg-gray-200 rounded-lg"
-            >
-              <img
-                id="main-image"
-                src="{{ item.image.url }}" 
-                class="h-full w-full"
-              />
+              class="flex items-center justify-center h-64 md:h-96 bg-gray-200 rounded-lg">
+
+  
+              {% if not item.image %}
+                <img src="{% static 'defaultimage.png' %}" class="h-full w-full" alt="Default image" />
+              {% else %}
+                <img
+                  id="main-image"
+                  src="{{ item.image.url }}"
+                  class="h-full w-full"
+                  onerror="this.onerror=null;this.src='{% static 'defaultimage.png' %}';"
+                  alt="Image of {{ item.title }}"
+                />
+              {% endif %}
+             
             </div>
           </div>
 
